@@ -115,6 +115,9 @@ def login(args):
         if "We could not sign you in" in resp.text and resp.status_code == 401:
             raise ValueError("Invalid credentials.")
 
+        if "You don't have permission to access" in resp.text and resp.status_code == 403:
+            raise ValueError("Permission denied.")
+
         if resp.ok and (resp.status_code == 302 or "<title>" in resp.text):
             vprint(f"Post auth form success - {attempt + 1} attempt(s).")
             break
